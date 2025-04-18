@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Lista de Categorias</h3>
+<table class='table table-bordered'>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for categoria in categorias %}
+            <tr>
+                <td>{{ categoria.nome }}</td>
+                <td><a href="{% url 'categoria_detail' categoria.id %}" class="btn btn-primary btn-sm">Ver</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

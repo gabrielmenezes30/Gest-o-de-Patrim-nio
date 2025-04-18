@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Detalhes do Departamento</h3>
+<div class="card p-3 mb-3">
+    <h4 class="text-primary">{{ departamento.nome }}</h4>
+    <p>Detalhes do departamento.</p>
+</div>
+<a href="{% url 'departamento_list' %}" class="btn btn-secondary">Voltar para a lista</a>
+{% endblock %}

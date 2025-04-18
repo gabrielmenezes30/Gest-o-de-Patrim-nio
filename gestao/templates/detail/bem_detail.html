@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Detalhes do Bem</h3>
+<div class="card p-3 mb-3">
+    <h4 class="text-primary">{{ bem.nome }}</h4>
+    <p><strong>Categoria:</strong> {{ bem.categoria.nome }}</p>
+    <p><strong>Departamento:</strong> {{ bem.departamento.nome }}</p>
+    <p><strong>Fornecedor:</strong>
+        {% if bem.fornecedor %}
+            {{ bem.fornecedor.nome }}
+        {% else %}
+            <span class="text-muted">Não definido</span>
+        {% endif %}
+    </p>
+    <p><strong>Status:</strong> <span class="badge {% if bem.status == 'Manutenção' %}bg-danger{% else %}bg-success{% endif %}">{{ bem.status }}</span></p>
+</div>
+<a href="{% url 'home' %}" class="btn btn-secondary">Voltar</a>
+{% endblock %}

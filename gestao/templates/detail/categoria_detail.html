@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>{{ categoria.nome }}</h3>
+<p>Detalhes da categoria.</p>
+<a href="{% url 'categoria_list' %}" class="btn btn-primary">Voltar para a lista</a>
+{% endblock %}

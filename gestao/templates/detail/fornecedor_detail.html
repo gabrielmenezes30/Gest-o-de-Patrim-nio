@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>{{ fornecedor.nome }}</h3>
+<p>Contato: {{ fornecedor.contato }}</p>
+<a href="{% url 'fornecedor_list' %}" class="btn btn-primary">Voltar para a lista</a>
+{% endblock %}

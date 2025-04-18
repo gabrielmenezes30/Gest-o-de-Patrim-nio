@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Lista de Movimentações</h3>
+<table class='table table-bordered'>
+    <thead>
+        <tr>
+            <th>Bem</th>
+            <th>Destino</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for movimentacao in movimentacoes %}
+            <tr>
+                <td>{{ movimentacao.bem.nome }}</td>
+                <td>{{ movimentacao.destino.nome }}</td>
+                <td><a href="{% url 'movimentacao_detail' movimentacao.id %}" class="btn btn-primary btn-sm">Ver</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

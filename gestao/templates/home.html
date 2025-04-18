@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Dashboard de Patrimônio</h2>
+<div>
+    <a href="{% url 'fornecedor_create' %}" class="btn btn-primary">Criar Fornecedor</a>
+    <a href="{% url 'departamento_create' %}" class="btn btn-danger fw-bold">Criar Departamento</a>
+</div>
+<div class='row mt-5'>
+    <!-- Total de Bens -->
+    <div class='col-md-4'>
+        <div class='card text-white bg-primary mb-3'>
+            <div class='card-header d-flex justify-content-between'>
+                <span>Total de Bens</span>
+                <a href="{% url 'bem_create' %}" class="btn btn-light btn-sm">+</a>
+            </div>
+            <div class='card-body'>
+                <h5 class='card-title'>{{ total_bens }}</h5>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categorias Cadastradas -->
+    <div class='col-md-4'>
+        <div class='card text-white bg-success mb-3'>
+            <div class='card-header d-flex justify-content-between'>
+                <span>Categorias Cadastradas</span>
+                <a href="{% url 'categoria_create' %}" class="btn btn-light btn-sm">+</a>
+            </div>
+            <div class='card-body'>
+                <h5 class='card-title'>{{ categorias }}</h5>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bens em Manutenção -->
+    <div class='col-md-4'>
+        <div class='card text-white bg-warning mb-3'>
+            <div class='card-header d-flex justify-content-between'>
+                <span>Bens em Manutenção</span>
+            </div>
+            <div class='card-body'>
+                <h5 class='card-title'>{{ manutencao }}</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='row'>
+    <!-- Distribuição de Ativos -->
+    <div class='col-md-6'>
+        <div class='card text-white bg-info mb-3'>
+            <div class='card-header'>Distribuição dos Ativos por Categoria</div>
+            <div class='card-body'>
+                <ul>
+                    {% for categoria in categoria_distribuicao %}
+                        <li>{{ categoria.nome }}: {{ categoria.total_bens }} bens</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Movimentações Recentes -->
+    <div class='col-md-6'>
+        <div class='card text-white bg-dark mb-3'>
+            <div class='card-header d-flex justify-content-between'>
+                <span>Movimentações Recentes</span>
+                <a href="{% url 'movimentacao_create' %}" class="btn btn-light btn-sm">+</a>
+            </div>
+            <div class='card-body'>
+                <ul>
+                    {% for movimentacao in movimentacoes_recent %}
+                        <li>{{ movimentacao.bem.nome }} - {{ movimentacao.destino.nome }} - {{ movimentacao.data }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='row'>
+    <div class='col-md-12'>
+        <div class='card text-white bg-secondary mb-3'>
+            <div class='card-header'>Valor Total do Patrimônio</div>
+            <div class='card-body'>
+                <h5 class='card-title'>R$ {{ valor_total }}</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>Lista de Bens</h3>
+
+<!-- Campo de busca -->
+<form method="GET" action="{% url 'home' %}" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="q" class="form-control" placeholder="Buscar por nome..." value="{{ query }}">
+        <button class="btn btn-primary" type="submit">Buscar</button>
+    </div>
+</form>
+
+<table class='table table-bordered'>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>Status</th>
+            <th>Valor</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for bem in bens %}
+       
+            <tr>
+                
+                <td>{{ bem.nome }}</td>
+                <td>{{ bem.categoria }}</td>
+                {% if bem.status == 'Manutenção' %}
+                <td style="color: red; font-weight: bold;">{{ bem.status }}</td>
+                {% else %}
+                    <td style="color: green; font-weight: bold;">{{ bem.status }}</td>
+                {% endif %}
+                <td>R$ {{ bem.valor }}</td>
+                <td>
+                    <a href="{% url 'bem_editar' bem.id %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'bem_detail' bem.id %}" class="btn btn-success btn-sm">Ver</a>
+                </td>
+               
+            </tr>
+        
+        {% empty %}
+            <tr>
+                <td colspan="4" class="text-center">Nenhum bem encontrado.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
